@@ -95,7 +95,7 @@ const handler = async (req: NextRequest, res: NextResponse) => {
       );
       let signatureField: any[] = [];
       signatures.forEach((s: any) => {
-        const metaData: any[] = JSON.parse(s.metadata);
+        const metaData: any[] = s.metadata;
         signatureField = [...signatureField, ...metaData];
       });
 

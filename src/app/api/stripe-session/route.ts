@@ -6,6 +6,9 @@ import { retrieveStripeSession } from "../wallet/createWalletSession";
 import { sendMail } from "@/lib/node-mailer";
 import { env } from "@/env";
 import { json } from "stream/consumers";
+import fs from "fs";
+import path from "path";
+import { pipeline } from "stream/promises";
 
 export async function POST(req: Request) {
   try {
@@ -31,23 +34,51 @@ export async function POST(req: Request) {
     }
 
     // Upload file to AWS S3
-    // const uploadParams = {
-    //   Bucket: process.env.AWS_BUCKET_NAME!,
-    //   Key: `uploads/${file.name}`,
-    //   Body: file.stream(),
-    //   ContentType: file.type,
-    // };
+    let uploadResponse = { Location: "" };
+    if (process.env.NODE_ENV === "production") {
+      const uploadParams = {
+        Bucket: process.env.AWS_BUCKET_NAME!,
+        Key: `uploads/${file.name}`,
+        Body: file.stream(),
+        ContentType: file.type,
+      };
 
-    // const upload = new Upload({
-    //   client: s3,
-    //   params: uploadParams,
-    // });
+      const upload = new Upload({
+        client: s3,
+        params: uploadParams,
+      });
 
-    // const uploadResponse = await upload.done();
+      uploadResponse = await upload.done();
+    } else {
+      // write code to upload file in local folder with unix timestamp in file name and path
+      const uploadDir = path.join(process.cwd(), "public", "uploads");
+
+      // Ensure directory exists
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+
+      // Attach unix timestamp to filename before the extension, e.g. myfile_1718172718.pdf
+      const timestamp = Date.now();
+      const ext = path.extname(file.name);
+      const baseName = path.basename(file.name, ext);
+      const uniqueFileName = `${baseName}_${timestamp}${ext}`;
+      const filePath = path.join(uploadDir, uniqueFileName);
+
+      // Stream file to local disk
+      await pipeline(
+        file.stream(),
+        fs.createWriteStream(filePath)
+      );
+
+      uploadResponse = {
+        Location: `/uploads/${uniqueFileName}`, // matches S3 Location usage
+      };
+    }
 
     const [data] = await pool.query<any>("INSERT INTO session_data SET ?", {
       session_id: sessionId,
-      file_url: 'uploadResponse.Location',
+      file_url: uploadResponse.Location,
       title,
       description,
       users: users ? JSON.stringify(JSON.parse(users)) : null,
@@ -66,7 +97,7 @@ export async function POST(req: Request) {
       message: "Session data saved successfully",
       data: {
         sessionId,
-        fileUrl: 'uploadResponse.Location',
+        fileUrl: uploadResponse.Location,
         recordId: data.insertId,
       },
     });

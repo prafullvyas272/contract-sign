@@ -87,7 +87,7 @@ export function DocumentPreviewForSign({ tokenProps }: any) {
           console.log(verifyToken);
           const { metadata, file_path, signatureStatus } = verifyToken.data;
           setFilePath(file_path);
-          setFields(JSON.parse(metadata));
+          setFields(metadata);
           setId(verifyToken.data.ID);
           setEmail(verifyToken.data.email);
           setStatus(signatureStatus);
