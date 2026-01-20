@@ -88,27 +88,42 @@ export default function WalletPage() {
   }, [session?.data?.user?.id]);
 
   const handleAddAmount = async (amount: number) => {
-    setOpen(false);
-    const stripe: any = await stripePromise;
-    const checkoutSession = await createWalletStripeSession({
-      name: "Add amount to wallet",
-      quantity: amount,
-      wallet: true,
-    });
-    if (checkoutSession.isSuccess) {
-      const redirectToStripe = await stripe.redirectToCheckout({
-        sessionId: checkoutSession.data?.id,
+    try {
+      setOpen(false);
+      const stripe: any = await stripePromise;
+      const checkoutSession = await createWalletStripeSession({
+        name: "Add amount to wallet",
+        quantity: amount,
+        wallet: true,
       });
-      if (redirectToStripe.error) {
-        console.log(redirectToStripe.error);
+      if (checkoutSession.isSuccess) {
+        const redirectToStripe = await stripe.redirectToCheckout({
+          sessionId: checkoutSession.data?.id,
+        });
+        if (redirectToStripe.error) {
+          console.log(redirectToStripe.error);
+        }
+      } else {
+        console.log(checkoutSession);
+        toast({
+          title: "Something went wrong",
+          variant: "default",
+        });
       }
-    }
 
-    toast({
-      title: "Amount Added Successfully",
-      description: `An amount of $${amount.toFixed(2)} has been added to your wallet.`,
-      variant: "default",
-    });
+      toast({
+        title: "Amount Added Successfully",
+        description: `An amount of $${amount.toFixed(2)} has been added to your wallet.`,
+        variant: "default",
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "An error occurred while adding the amount. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
