@@ -35,7 +35,8 @@ export async function POST(req: Request) {
 
     // Upload file to AWS S3
     let uploadResponse = { Location: "" };
-    if (process.env.NODE_ENV === "production") {
+    // process.env.NODE_ENV === "production"  TODO: when aws setup we need to use this condition
+    if (false) {
       const uploadParams = {
         Bucket: process.env.AWS_BUCKET_NAME!,
         Key: `uploads/${file.name}`,
