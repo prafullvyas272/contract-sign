@@ -106,7 +106,7 @@ export default async function Home() {
         <div className="container">
           <div className="why-dollar-con">
             <div className="sec-head style-2 text-center">
-              <h3 className="sec-title">Why Dollar Sign Club?</h3>
+              <h3 className="sec-title">Why Contract Sign?</h3>
               <p>Why Pay More? Get Everything You Need for Just $1.</p>
             </div>
             <div className="why-dollar-boxes">

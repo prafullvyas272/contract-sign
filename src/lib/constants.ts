@@ -1,6 +1,6 @@
 export const BRAND = {
   primary: "#303596",
-  name: "Dollar Sign Club.",
+  name: "Contract Sign.",
 };
 
 export const CONTRACT_STATUS = {

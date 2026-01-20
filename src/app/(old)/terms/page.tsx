@@ -13,7 +13,7 @@ export default async function Terms() {
               <strong>Effective Date:</strong> 22 November 2024
             </p>
             <p>
-              Welcome to <strong>Dollar Sign Club</strong> (“Company,” “we,”
+              Welcome to <strong>Contract Sign</strong> (“Company,” “we,”
               “our,” or “us”). By using our website,{" "}
               <strong>
                 <Link href={"/"}>dollarsignclub.com</Link>
@@ -25,7 +25,7 @@ export default async function Terms() {
 
             <h4>1. Description of Service</h4>
             <p>
-              Dollar Sign Club provides an online platform for electronic
+              Contract Sign provides an online platform for electronic
               document signing. Each signatory is charged $1 per document. We do
               not offer subscriptions, additional fees, or contracts.
             </p>
@@ -77,7 +77,7 @@ export default async function Terms() {
             <p>To the fullest extent permitted by law:</p>
             <ul>
               <li>
-                Dollar Sign Club and its affiliates, officers, employees, and
+                Contract Sign and its affiliates, officers, employees, and
                 agents shall not be liable for any direct, indirect, incidental,
                 special, consequential, or exemplary damages, including but not
                 limited to damages for loss of profits, data, goodwill, or other
@@ -93,7 +93,7 @@ export default async function Terms() {
 
             <h4>5. Indemnification</h4>
             <p>
-              You agree to indemnify, defend, and hold harmless Dollar Sign Club
+              You agree to indemnify, defend, and hold harmless Contract Sign
               and its affiliates, officers, employees, and agents from and
               against all claims, damages, losses, liabilities, costs, and
               expenses (including reasonable attorneys’ fees) arising from:
@@ -110,7 +110,7 @@ export default async function Terms() {
             <ul>
               <li>
                 All content on the Site, including but not limited to text,
-                graphics, logos, and software, is owned by Dollar Sign Club or
+                graphics, logos, and software, is owned by Contract Sign or
                 licensed to us and protected under copyright, trademark, and
                 other intellectual property laws.
               </li>
@@ -169,7 +169,7 @@ export default async function Terms() {
             <h4>11. Entire Agreement</h4>
             <p>
               These Terms, along with our Privacy Policy, constitute the entire
-              agreement between you and Dollar Sign Club regarding the use of
+              agreement between you and Contract Sign regarding the use of
               our Site and services, superseding any prior agreements.
             </p>
 

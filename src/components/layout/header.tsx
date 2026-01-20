@@ -23,7 +23,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link href="/home" className="text-2xl font-bold text-[#303596]">
-              Dollar Sign Club.
+              Contract Sign.
             </Link>
           </div>
 

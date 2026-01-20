@@ -105,7 +105,10 @@ const handler = async (req: NextRequest, res: NextResponse) => {
         type: 1,
         createdBy: check[0].user_id,
       });
-      const fileData = await downloadFile(fileUrl);
+      const baseUrl = process.env.APP_URL || "http://localhost:3000";
+      const finalUrl = fileUrl.startsWith("http") ? fileUrl : `${baseUrl}${fileUrl}`;
+
+      const fileData = await downloadFile(finalUrl);
       const convertedForAll: any = await overlayImageOnPdf(
         signatureField,
         fileData,
@@ -114,6 +117,9 @@ const handler = async (req: NextRequest, res: NextResponse) => {
         check[0].id,
         convertedForAll,
       );
+
+      const pdfBuffer = Buffer.from(addLogs); // ✅ IMPORTANT
+
       const res = await Promise.all(
         signatures.map(async (s: any) => {
           await sendMail(
@@ -124,7 +130,9 @@ const handler = async (req: NextRequest, res: NextResponse) => {
             [
               {
                 filename: "contract.pdf",
-                content: addLogs,
+                // content: addLogs,
+                content: pdfBuffer,                 // ✅ Buffer
+                contentType: "application/pdf",     // ✅ Explicit MIME type
               },
             ],
           );

@@ -62,7 +62,7 @@ export async function POST(req: Request) {
       const timestamp = Date.now();
       const ext = path.extname(file.name);
       const baseName = path.basename(file.name, ext);
-      const uniqueFileName = `${baseName}_${timestamp}${ext}`;
+      const uniqueFileName = `${timestamp}${ext}`;
       const filePath = path.join(uploadDir, uniqueFileName);
 
       // Stream file to local disk

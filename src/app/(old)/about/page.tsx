@@ -5,7 +5,7 @@ export default async function About() {
         <div className="about-con">
           <div className="cms-con">
             <h1>
-              At Dollar Sign Club, we believe <br />
+              At Contract Sign, we believe <br />
               that e-signatures should be <br />
               simple, affordable, and accessible <br />
               for everyone.
@@ -22,7 +22,7 @@ export default async function About() {
               you use—just $1 per signatory, no more, no less. Whether youre a
               freelancer needing to sign the occasional contract, a small
               business looking to cut costs, or an individual managing personal
-              agreements, Dollar Sign Club is the easiest, most affordable way
+              agreements, Contract Sign is the easiest, most affordable way
               to get documents signed online.
             </p>
             <p>
@@ -41,7 +41,7 @@ export default async function About() {
             <p>
               <b>Part of the Blue-Sky Thinking Ventures Portfolio</b>
               <br />
-              Dollar Sign Club is proud to be a Blue-Sky Thinking Venture, part
+              Contract Sign is proud to be a Blue-Sky Thinking Venture, part
               of a broader venture studio portfolio that supports innovation and
               forward-thinking businesses. As part of this community, we’re
               committed to delivering creative solutions that redefine industry

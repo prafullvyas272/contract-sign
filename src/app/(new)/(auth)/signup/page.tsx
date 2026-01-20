@@ -8,13 +8,13 @@ export default function SignUpPage() {
         <div className="absolute inset-0 bg-[#303596]" />
         <div className="relative z-20 flex items-center text-lg font-medium">
           <Link href="/" className="flex items-center">
-            Dollar Sign Club.
+            Contract Sign.
           </Link>
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
             <p className="text-lg">
-              Dollar Sign Club has revolutionized our contract management
+              Contract Sign has revolutionized our contract management
               process. Its secure, efficient, and incredibly easy to use.
             </p>
             <footer className="text-sm">XYZ, Legal Operations Manager</footer>

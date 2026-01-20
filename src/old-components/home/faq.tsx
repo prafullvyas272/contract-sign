@@ -20,7 +20,7 @@ export default function HomeFAQ() {
       <Accordion.Item eventKey="2">
         <Accordion.Header> Is it legally binding?</Accordion.Header>
         <Accordion.Body>
-          <p>Yes, the Dollar Sign Club envelopes are legally binding.</p>
+          <p>Yes, the Contract Sign envelopes are legally binding.</p>
           <p>
             Our electronic signatures are globally recognized and legally
             binding, offering the same legal standing as traditional ink

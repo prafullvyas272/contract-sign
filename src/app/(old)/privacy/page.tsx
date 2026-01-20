@@ -13,7 +13,7 @@ export default async function Privacy() {
               <strong>Effective Date:</strong> 24 November 2024
             </p>
             <p>
-              <strong>Dollar Sign Club</strong>
+              <strong>Contract Sign</strong>
               {`("we," "us," or "our")`} is committed to protecting your
               privacy. This Privacy Policy explains how we collect, use,
               disclose, and safeguard your information when you visit our
