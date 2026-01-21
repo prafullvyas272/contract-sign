@@ -12,6 +12,7 @@ import moment from "moment";
 import fs from "fs";
 import path from "path";
 import { pipeline } from "stream/promises";
+import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   try {
@@ -33,53 +34,9 @@ export async function POST(req: Request) {
     }
 
     let uploadResult = { Location: "" };
-    // process.env.NODE_ENV === "production"  TODO: when aws setup we need to use this condition
-
-    if (false) {
-      // Upload the file to S3
-      const uploadParams = {
-        Bucket: process.env.AWS_BUCKET_NAME!,
-        Key: `contract-uploads/${file.name}`,
-        Body: file.stream(),
-        ContentType: file.type,
-      };
-
-      const upload = new Upload({
-        client: s3,
-        params: uploadParams,
-      });
-      // await upload.done();
-
-      const uploadResult = await upload.done();
-      console.log(uploadResult, "RESULT");
-    } else {
-      // write code to upload file in local folder with unix timestamp in file name and path
-      const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-      // Ensure directory exists
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-
-      // Attach unix timestamp to filename before the extension, e.g. myfile_1718172718.pdf
-      const timestamp = Date.now();
-      const ext = path.extname(file.name);
-      const baseName = path.basename(file.name, ext);
-      const uniqueFileName = `${timestamp}${ext}`;
-      const filePath = path.join(uploadDir, uniqueFileName);
-
-      // Stream file to local disk
-      await pipeline(
-        file.stream(),
-        fs.createWriteStream(filePath)
-      );
-
-      uploadResult = {
-        Location: `/uploads/${uniqueFileName}`, // matches S3 Location usage
-      };
-    }
-
-    
+    let fileName = `${file.name}-${Date.now()}`;
+    const { url } = await put(`contract-uploads/${fileName}`, file, { access: 'public' });
+    uploadResult = { Location: url };    
 
     const [contractData] = await pool.query<any>(
       "INSERT INTO Contracts SET ?",

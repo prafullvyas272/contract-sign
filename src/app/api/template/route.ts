@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { pipeline } from "stream/promises";
+import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   const form = await req.formData();
@@ -29,51 +30,11 @@ export async function POST(req: Request) {
     });
   }
 
-  // Upload file to AWS S3
   let uploadResponse = { Location: "" };
+  let fileName = `${file.name}-${Date.now()}`;
+  const { url } = await put(`templates/${fileName}`, file, { access: 'public' });
+  uploadResponse = { Location: url };  
 
-  // process.env.NODE_ENV === "production"  TODO: when aws setup we need to use this condition
-  if (false) {
-    const uploadParams = {
-      Bucket: process.env.AWS_BUCKET_NAME!,
-      Key: `templates/${file.name}`,
-      Body: file.stream(),
-      ContentType: file.type,
-    };
-  
-    const upload = new Upload({
-      client: s3,
-      params: uploadParams,
-    });
-    const uploadResponse = await upload.done();
-
-  } else {
-    // write code to upload file in local folder with unix timestamp in file name and path
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-    // Ensure directory exists
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
-    // Attach unix timestamp to filename before the extension, e.g. myfile_1718172718.pdf
-    const timestamp = Date.now();
-    const ext = path.extname(file.name);
-    const baseName = path.basename(file.name, ext);
-    const uniqueFileName = `${timestamp}${ext}`;
-    const filePath = path.join(uploadDir, uniqueFileName);
-
-    // Stream file to local disk
-    await pipeline(
-      file.stream(),
-      fs.createWriteStream(filePath)
-    );
-
-    uploadResponse = {
-      Location: `/uploads/${uniqueFileName}`, // matches S3 Location usage
-    };
-
-  }
   const [data] = await pool.query<any>("INSERT INTO Templates SET ?", {
     tags: tag,
     description,
