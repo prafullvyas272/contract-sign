@@ -151,7 +151,7 @@ export default function ContractsPage() {
       const signatures: any[] = res.data;
       let signatureField: any[] = [];
       signatures.forEach((s) => {
-        const metaData: any[] = JSON.parse(s.metadata);
+        const metaData: any[] = s.metadata;    // should not be in JSON.parse as it is already a valid object
         signatureField = [...signatureField, ...metaData];
       });
       if (!signatureField.length) {
@@ -265,29 +265,41 @@ export default function ContractsPage() {
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
                       onClick={async () => {
-                        let url;
-                        if (
-                          contract.id === viewContract.id &&
-                          viewContract.contract
-                        ) {
-                          url = viewContract.contract;
-                        } else {
-                          const blob = await getModifiedpdf(contract);
-                          if (!blob) {
-                            toast({
-                              title: "Error",
-                              description: "Error downloading the contract",
-                              variant: "destructive",
-                            });
-                            return;
-                          }
-                          url = URL.createObjectURL(blob);
-                        }
+
+                        let url = contract.file_path;
+
                         const link = document.createElement("a");
                         link.href = url;
+                        link.target = "_blank";
                         link.download = "contract.pdf";
                         link.click();
                         link.remove();
+
+
+                        // TODO: uncomment below code when s3 is integrated
+                        // let url;
+                        // if (
+                        //   contract.id === viewContract.id &&
+                        //   viewContract.contract
+                        // ) {
+                        //   url = viewContract.contract;
+                        // } else {
+                        //   const blob = await getModifiedpdf(contract);
+                        //   if (!blob) {
+                        //     toast({
+                        //       title: "Error",
+                        //       description: "Error downloading the contract",
+                        //       variant: "destructive",
+                        //     });
+                        //     return;
+                        //   }
+                        //   url = URL.createObjectURL(blob);
+                        // }
+                        // const link = document.createElement("a");
+                        // link.href = url;
+                        // link.download = "contract.pdf";
+                        // link.click();
+                        // link.remove();
                       }}
                     >
                       <Download className="mr-2 h-4 w-4" />

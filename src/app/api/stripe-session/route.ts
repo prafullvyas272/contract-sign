@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     }
 
     let uploadResponse = { Location: "" };
-    let fileName = `${file.name}-${Date.now()}`;
+    let fileName = `${Date.now()}-${file.name}`;
     const { url } = await put(`contract-uploads/${fileName}`, file, { access: 'public' });
     uploadResponse = { Location: url };    
 
